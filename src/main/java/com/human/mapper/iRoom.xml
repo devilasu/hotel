@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.human.mapper.iRoom">
+	<select id="getRoomList" resultType="com.human.vo.Roominfo">
+		select room.roomcode, room.name, roomtype.name as type, room.howmany, room.howmuch
+		from room, roomtype
+		where room.type = roomtype.typecode
+		order by room.roomcode
+	</select>
+	<select id="getRoomType" resultType="com.human.vo.Roomtype">
+		select name,typecode from roomtype order by typecode
+	</select>
+	<delete id="deleteRoom">
+		delete from room where roomcode=#{roomcode}
+	</delete>
+	<insert id="insertRoom" parameterType = "com.human.vo.Roominfo">
+		insert into room(roomcode,name,type,howmany,howmuch) values(
+		seq_room.nextval, #{name}, #{type}, #{howmany}, #{howmuch}
+		)
+	</insert>
+</mapper>

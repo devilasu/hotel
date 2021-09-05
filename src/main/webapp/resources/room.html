@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--jQuery-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
+    <link rel="stylesheet" href="hotelRoom.css">
+    <title>객실관리</title>
+</head>
+<body>
+    <div class="wrap">
+        <div class="nav">
+            <a href="">객실관리</a> <a href="">예약관리</a>
+        </div>
+        <br>
+        <div class="divLeft">
+            <div class="roomList">
+                <table class="tableStyle">
+                    <thead>
+                        <tr class="tName">
+                            <th colspan="3">
+                                객실목록
+                            </th>
+                        </tr>
+                        <tr class="tHeader">
+                            <th>이름</th>
+                            <th>객실종류</th>
+                            <th>최대인원</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>백두산</td>
+                            <td>SweetRoom</td>
+                            <td>4명</td>
+                        </tr>
+                        <tr>
+                            <td>한라산</td>
+                            <td>FamilyRoom</td>
+                            <td>6명</td>
+                        </tr>
+                        <tr>
+                            <td>태조산</td>
+                            <td>SingleRoom</td>
+                            <td>2명</td>
+                        </tr>
+                        <tr>
+                            <td>흑성산</td>
+                            <td>SingleRoom</td>
+                            <td>2명</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="divRight">
+            <span>객실이름</span>
+            <input type="text" name="roomName" id="roomName">
+            <br>
+            <span style="vertical-align: top;">객실분류</span>
+            <div class="divScroll borderSolid">
+                <ul style="list-style-type:none;" class="roomType">
+                    <li>
+                        SweetRoom
+                    </li>
+                    <li>
+                        FamilyRoom
+                    </li>
+                    <li>
+                        DoubleRoom
+                    </li>
+                    <li>
+                        SingleRoom
+                    </li>
+                </ul>
+            </div>
+            <br>
+            <span>숙박가능인원</span>
+            <select name="num" id="num">
+                <option value="1명">1명</option>
+                <option value="2">2명</option>
+                <option value="3">3명</option>
+                <option value="4">4명</option>
+                <option value="5">5명</option>
+                <option value="6">6명</option>
+            </select>
+            <br>
+            <br>
+            <span>1박요금</span>
+            <input type="text" name="dayPrice" id="dayPrice">원
+            <br>
+            <br>
+            <br>
+            <input type="button" class="btn" id="btnAdd" value="등록">
+            <input type="button" class="btn" id="btnDelete" value="삭제">
+            <input type="button" class="btn" id="btnClear" value="Clear">
+        </div>
+    </div>  
+</body>
+<script>
+    document.getElementById("btnAdd").onclick=function(){
+        alert("내용을 등록합니다.");
+    }
+    document.getElementById("btnDelete").onclick=function(){
+        alert("내용을 삭제합니다.");
+    }
+    document.getElementById("btnClear").onclick=function(){
+        alert("내용을 비웁니다.");
+    }
+</script>
+</html>
