@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.human.mapper.iRoom;
+import com.human.vo.LoginInfo;
+import com.human.vo.MemberInfo;
 import com.human.vo.Roominfo;
 import com.human.vo.Roomtype;
 
@@ -80,10 +82,12 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(HttpServletRequest request,@RequestParam("uid")String uid, @RequestParam("password")String password, Model model) {
+	public String login(HttpServletRequest request,LoginInfo loginInfo, Model model) {
 		HttpSession session = request.getSession();
-		if(uid !=null || uid !="")
-			session.setAttribute("uid", uid);
+		iRoom room = sqlSession.getMapper(iRoom.class);
+		MemberInfo memberInfo = room.getMember(loginInfo);
+		if(memberInfo != null)
+			session.setAttribute("uid", memberInfo.getName());
 		return "redirect:/booking";
 	}
 	
@@ -113,7 +117,9 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/join", method = RequestMethod.GET)
-	public String join(@ModelAttribute("uid")String uid, @ModelAttribute("password")String password, @ModelAttribute("name") String name) {
+	public String join(MemberInfo memberInfo) {
+		iRoom room = sqlSession.getMapper(iRoom.class);
+		room.joinMember(memberInfo);
 		return "redirect:/loginForm";
 	}
 	
