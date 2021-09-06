@@ -8,7 +8,7 @@ create table reservation(
 
 create table member(
 	name
-	id
+	uid	pk
 	password
 );
 

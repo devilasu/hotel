@@ -25,4 +25,12 @@
 		seq_room.nextval, #{name}, #{type}, #{howmany}, #{howmuch}
 		)
 	</insert>
+	
+	<insert id="joinMember" parameterType="com.human.vo.MemberInfo">
+		insert into member(name, uid, password) values(#{name}, #{uid}, #{password})
+	</insert>
+	
+	<select id="getMember" parameterType="com.human.vo.MemberInfo" resultType="com.human.vo.MemberInfo">
+		select name, uid from member where id=#{uid} and password = #{password} 
+	</select>
 </mapper>
