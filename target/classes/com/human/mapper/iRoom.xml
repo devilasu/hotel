@@ -8,6 +8,12 @@
 		where room.type = roomtype.typecode
 		order by room.roomcode
 	</select>
+	<select id="searchRoom" resultType="com.human.vo.Roominfo" parameterType = "Integer">
+		select * from room where roomcode=#{roomcode}
+	</select>
+	<update id="updateRoom" parameterType = "com.human.vo.Roominfo">
+		update room set name = #{name}, type=#{type}, howmany=#{howmany}, howmuch=#{howmuch} where roomcode=#{roomcode}
+	</update>
 	<select id="getRoomType" resultType="com.human.vo.Roomtype">
 		select name,typecode from roomtype order by typecode
 	</select>

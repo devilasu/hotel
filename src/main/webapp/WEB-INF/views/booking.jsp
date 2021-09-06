@@ -26,20 +26,12 @@
                 <br>
                 객실분류
                 <select name="roomType" id="roomType">
-                    <option value="sweet">Sweet Room</option>
-                    <option value="family">Family Room</option>
-                    <option value="double">Double Room</option>
-                    <option value="single">Single Room</option>
                 </select>
                 <input type="button" id="btnSearch" class="btn" value="찾기">
             </div>
             <div class="pReservation">
                 <p>예약 가능</p>
                 <select name="reservlist" id="reservlist" size=5 style="width:100%;">
-                    <option>한라산</option>
-                    <option>백두산</option>
-                    <option>관악산</option>
-                    <option>남산</option>
                 </select>
 
             </div>
@@ -72,7 +64,7 @@
         </div>
         <div class="divRight">
             <span>예약된 객실</span>
-            <select name="reservedlist" id="reserveedlist" size=5 style="width:100%;">
+            <select name="reservedlist" id="reservedlist" size=5 style="width:100%;">
                 <option>광덕산</option>
                 <option>흑성산</option>
                 <option>태조산</option>
@@ -81,18 +73,89 @@
     </div>
 </body>
 <script>
-    document.getElementById("btnSearch").onclick=function(){
-        let sel = document.getElementById("roomType");
-        alert(sel.options[sel.selectedIndex].value+"룸을 검색합니다.");
-    }
-    document.getElementById("btnAdd").onclick=function(){
-        alert("내용을 예약합니다.");
-    }
-    document.getElementById("btnCancel").onclick=function(){
-        alert("예약을 취소합니다.");
-    }
-    document.getElementById("btnClear").onclick=function(){
-        alert("내용을 비웁니다.");
-    }
+	function roomTypeInit(){
+		let txt = '';
+		$("#roomtype").html('');
+		$.get("http://localhost:8080/roomtypes",{},function(result){
+			for(let roomtype in result){
+				txt += "<option value="+result[roomtype].typecode+">"+result[roomtype].name+"</option>";
+			}
+			$("#roomType").append(txt);
+		},'json');
+	}
+	function reservListInit(){
+		//get으로 예약가능한 객실 받아오기
+		$("#reservlist option").each(function(){
+			$(this).remove();
+		})
+		txt ="<option>한라산</option><option>백두산</option><option>관악산</option><option>남산</option>";
+		$("#reservlist").append(txt);
+	}
+	function reservedListInit(){
+		//get으로 예약된 객실 받아오기
+	}
+	function clearReservation(){
+		$("#reservlist option:selected").prop("selected",false);
+		$("#rName").val("");
+		$("#minday").val("");
+		$("#maxday").val("");
+		$("#num").val("");
+		$("#perPrice").val("");
+		$("#total").val("");
+		$("#mobile").val("");
+	}
+	
+	function addReservation(){
+		let selected = $("#reservlist option:selected");
+		if(typeof selected.val() =="undefined" || selected == null || selected ==""){
+			alert("예약가능한 객실을 선택하지 않으셨습니다.");
+			return false;
+		}else{
+			let txt = "<option>"+selected.val()+"</option>"
+			$("#reservedlist").append(txt);
+			selected.remove();
+		}
+	}
+	
+	function cancelReservation(){
+		let selected = $("#reservedlist option:selected");
+		if(typeof selected.val() =="undefined" || selected == null || selected ==""){
+			alert("예약가능한 객실을 선택하지 않으셨습니다.");
+			return false;
+		}else{
+			let txt = "<option>"+selected.val()+"</option>"
+			$("#reservlist").append(txt);
+			selected.remove();
+		}
+	}
+	
+	$(document)
+		.ready(function(){
+			roomTypeInit();
+		})
+		.on("click", "#btnSearch", function(){
+			reservListInit();
+			reservedListInit();
+		})
+		.on("click","#btnAdd",function(){
+			addReservation();
+		})
+		.on("click","#btnCancel",function(){
+			cancelReservation();
+		})
+		.on("click","#btnClear",function(){
+			clearResrvation();
+		});
+	
+	$("#reservlist").change(function(){
+		let selected = $("#reservlist option:selected");
+		$("#rName").val(selected.val()); 
+	});
+	
+	$("#reservedlist").change(function(){
+		let selected = $("#reservedlist option:selected");
+		$("#rName").val(selected.val());
+	});
+
 </script>
 </html>

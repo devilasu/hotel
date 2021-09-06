@@ -56,7 +56,12 @@ public class HomeController {
 	@ResponseBody
 	public HttpStatus insertRoom(@RequestBody Roominfo roominfo) {
 		iRoom room = sqlSession.getMapper(iRoom.class);
-		room.insertRoom(roominfo);
+		if(room.searchRoom(roominfo.getRoomcode()).equals(null)) {
+			room.insertRoom(roominfo);
+		}else {
+			room.updateRoom(roominfo);
+		}
+		
 		return HttpStatus.OK;
 	}
 	
@@ -77,7 +82,7 @@ public class HomeController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(HttpServletRequest request,@RequestParam("uid")String uid, @RequestParam("password")String password, Model model) {
 		HttpSession session = request.getSession();
-		if(!uid.isEmpty())
+		if(uid !=null || uid !="")
 			session.setAttribute("uid", uid);
 		return "redirect:/booking";
 	}

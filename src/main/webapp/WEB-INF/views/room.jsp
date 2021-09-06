@@ -102,11 +102,11 @@ $(document)
 	roomTypeInit();
 })
 	$("#roomList").change(function(){
-		let tmp = $("#roomList option:selected").text().split(",");
-		$("#roomName").val(tmp[1]);
-		$("#roomtype option:contains("+tmp[2]+")").prop("selected", true);
-		$("#num").val(tmp[3]).prop("selected", true);
-		$("#dayPrice").val(tmp[4]);
+		let selected = $("#roomList option:selected").text().split(",");
+		$("#roomName").val(selected[1]);
+		$("#roomtype option:contains("+selected[2]+")").prop("selected", true);
+		$("#num").val(selected[3]).prop("selected", true);
+		$("#dayPrice").val(selected[4]);
 	})
     document.getElementById("btnAdd").onclick=function(){
 		let sendReply = {"name":$("#roomName").val(),"type":$("#roomtype option:selected").val(),"howmany":$("#num option:selected").val(),"howmuch":$("#dayPrice").val()};
