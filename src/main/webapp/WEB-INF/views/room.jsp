@@ -22,7 +22,7 @@
         <div class="divLeft">
             <div class="roomList">
             	<select name="roomList" id="roomList" size=10 style="width:100%;">
-<!--             		<c:forEach items="${list}" var="room">
+<!--             	<c:forEach items="${list}" var="room">
 	            		<option value="${room.roomcode}">${room.roomcode},${room.name},${room.type},${room.howmany},${room.howmuch}</option>
             		</c:forEach> -->
             	</select>
@@ -109,7 +109,7 @@ $(document)
 		$("#dayPrice").val(selected[4]);
 	})
     document.getElementById("btnAdd").onclick=function(){
-		let sendReply = {"name":$("#roomName").val(),"type":$("#roomtype option:selected").val(),"howmany":$("#num option:selected").val(),"howmuch":$("#dayPrice").val()};
+		let sendReply = {roomcode:$("#roomList option:selected").val(),name:$("#roomName").val(),type:$("#roomtype option:selected").val(),howmany:$("#num option:selected").val(),howmuch:$("#dayPrice").val()};
        $.ajax({
     	   url:"/rooms",
     	   type:"post",

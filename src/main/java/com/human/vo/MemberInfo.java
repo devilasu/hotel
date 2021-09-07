@@ -2,11 +2,11 @@ package com.human.vo;
 
 public class MemberInfo {
 	private String name;
-	private String uid;
+	private String id;
 	private String password;
 	@Override
 	public String toString() {
-		return "MemberInfo [name=" + name + ", uid=" + uid + ", password=" + password + "]";
+		return "MemberInfo [name=" + name + ", id=" + id + ", password=" + password + "]";
 	}
 	public String getName() {
 		return name;
@@ -14,11 +14,11 @@ public class MemberInfo {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getUid() {
-		return uid;
+	public String getId() {
+		return id;
 	}
-	public void setUid(String uid) {
-		this.uid = uid;
+	public void setId(String id) {
+		this.id = id;
 	}
 	public String getPassword() {
 		return password;

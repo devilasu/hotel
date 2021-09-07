@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.human.mapper.iBook;
 import com.human.mapper.iRoom;
 import com.human.vo.LoginInfo;
 import com.human.vo.MemberInfo;
 import com.human.vo.Roominfo;
 import com.human.vo.Roomtype;
+import com.human.vo.ReservTypeInfo;
 
 /**
  * Handles requests for the application home page.
@@ -41,11 +43,12 @@ public class HomeController {
 	
 	@RequestMapping(value="/rooms",method = RequestMethod.GET)
 	@ResponseBody
-	public List<Roominfo> getRooms() {
+	public List<Roominfo> getRooms(@RequestParam("startDate")String startDate, @RequestParam("endDate")String endDate, @RequestParam("roomcode") Integer roomcode) {
 		iRoom room = sqlSession.getMapper(iRoom.class);
 		List<Roominfo> roomList = room.getRoomList();
 		return roomList;
 	}
+	
 	@RequestMapping(value="/rooms",method = RequestMethod.DELETE)
 	@ResponseBody
 	public HttpStatus deleteRoom(@RequestParam("roomcode")int roomcode) {
@@ -54,11 +57,11 @@ public class HomeController {
 		return HttpStatus.OK;
 	}
 	
-	@RequestMapping(value="/rooms",method = RequestMethod.POST)
+	@RequestMapping(value="/rooms", method = RequestMethod.POST)
 	@ResponseBody
-	public HttpStatus insertRoom(@RequestBody Roominfo roominfo) {
+	public HttpStatus insertupdateRoom(@RequestBody Roominfo roominfo) {
 		iRoom room = sqlSession.getMapper(iRoom.class);
-		if(room.searchRoom(roominfo.getRoomcode()).equals(null)) {
+		if(room.getRoom(roominfo.getRoomcode()).equals(null)) {
 			room.insertRoom(roominfo);
 		}else {
 			room.updateRoom(roominfo);
@@ -75,6 +78,42 @@ public class HomeController {
 		return typeList;
 	}
 	
+	@RequestMapping(value="/room", method = RequestMethod.GET)
+	public String room(Model model,@ModelAttribute("uid")String uid) {
+		iRoom room = sqlSession.getMapper(iRoom.class);
+//		ArrayList<Roominfo> roominfo = room.getRoomList();
+//		model.addAttribute("list", roominfo);
+		model.addAttribute("type", room.getRoomType());
+		return "room";
+	}
+
+	@RequestMapping(value="/booking", method = RequestMethod.GET)
+	public String booking(HttpServletRequest request, Model model) {
+		HttpSession session = request.getSession();
+		String uid = (String) session.getAttribute("uid");
+		if(uid != null && uid != "") {
+			return "booking";
+		}
+		return "redirect:/loginForm";
+	}
+	
+	@RequestMapping(value="/reservations", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Roominfo> getReservation(Model model, ReservTypeInfo reservTypeInfo) {
+		iBook book = sqlSession.getMapper(iBook.class);
+		List<Roominfo> reservationList = book.getReservation(reservTypeInfo);
+		return reservationList;
+	}
+	
+	@RequestMapping(value="/reservatedrooms", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Roominfo> getReservated(Model model, ReservTypeInfo reservTypeInfo) {
+		iBook book = sqlSession.getMapper(iBook.class);
+		List<Roominfo> reservatedList = book.getReservated(reservTypeInfo);
+		return reservatedList;
+	}
+	
+
 	@RequestMapping(value = "/loginForm", method = RequestMethod.GET)
 	public String loginForm() {
 		
@@ -86,29 +125,13 @@ public class HomeController {
 		HttpSession session = request.getSession();
 		iRoom room = sqlSession.getMapper(iRoom.class);
 		MemberInfo memberInfo = room.getMember(loginInfo);
-		if(memberInfo != null)
-			session.setAttribute("uid", memberInfo.getName());
+		if(memberInfo != null) {
+			session.setAttribute("uid", memberInfo.getId());
+			session.setAttribute("name", memberInfo.getName());
+		}
 		return "redirect:/booking";
 	}
 	
-	@RequestMapping(value="/booking", method = RequestMethod.GET)
-	public String viewInfo(HttpServletRequest request, Model model) {
-		HttpSession session = request.getSession();
-		String uid = (String) session.getAttribute("uid");
-		if(!uid.isEmpty())
-			if(uid.equals("admin"))
-				return "booking";
-		return "redirect:/loginForm";
-	}
-	
-	@RequestMapping(value="/room", method = RequestMethod.GET)
-	public String room(Model model,@ModelAttribute("uid")String uid) {
-		iRoom room = sqlSession.getMapper(iRoom.class);
-//		ArrayList<Roominfo> roominfo = room.getRoomList();
-//		model.addAttribute("list", roominfo);
-		model.addAttribute("type", room.getRoomType());
-		return "room";
-	}
 	
 	@RequestMapping(value = "/joinForm", method = RequestMethod.GET)
 	public String joinForm() {

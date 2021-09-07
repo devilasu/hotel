@@ -9,12 +9,12 @@ import com.human.vo.Roomtype;
 
 public interface iRoom {
 	public ArrayList<Roominfo> getRoomList();
-	public Roominfo searchRoom(int roomcode);
+	public Roominfo getRoom(int roomcode);
 	public void updateRoom(Roominfo roominfo);
 	public ArrayList<Roomtype> getRoomType();
 	public void deleteRoom(int roomcode);
 	public void insertRoom(Roominfo roominfo);
-	//Member °ü·Ã
+	//Member ê¸°ëŠ¥
 	public void joinMember(MemberInfo memberinfo);
 	public MemberInfo getMember(LoginInfo loginInfo);
 }

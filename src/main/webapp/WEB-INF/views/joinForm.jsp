@@ -10,7 +10,7 @@
 <body>
 <form action="/join" id="joinForm" method="get">
 	<p>이름 : <input type="text" name="name"></p>
-	<p>아이디	: <input type="text" name="uid"></p>
+	<p>아이디	: <input type="text" name="id"></p>
 	<p>비밀번호 : <input type="password" id="password" name="password"></p>
 	<p>비밀번호 확인 : <input type="password" id="confirm_password"></p>
 	<input type="submit" value="가입">

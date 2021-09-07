@@ -15,14 +15,14 @@
 <body>
     <div class="wrap">
         <div class="nav">
-            <h1><a href="/room">객실관리</a> <a href="/booking"><font color="skyblue">예약관리</font></a> ${uid}님 어서오세요. <a href="/logout">로그아웃</a></h1>
+            <h1><a href="/room">객실관리</a> <a href="/booking"><font color="skyblue">예약관리</font></a> ${name}님 어서오세요. <a href="/logout">로그아웃</a></h1>
         </div>
         <div class="divLeft">
             <div class="search">
                 숙박기간
-                <input type="text" name="minday" id="minday" style="width:70px">
+                <input type="date" name="mindate" id="mindate" style="width:120px">
                 ~
-                <input type="text" name="maxday" id="maxday" style="width:70px">
+                <input type="date" name="maxdate" id="maxdate" style="width:120px">
                 <br>
                 객실분류
                 <select name="roomType" id="roomType">
@@ -41,10 +41,10 @@
             <input type="text" readonly name="rName" id="rName">
             <br>
             숙박기간
-            <input type="text" readonly name="minday" id="minday" style="width:60px">
+            <input type="date"  name="rMindate" id="rMindate" style="width:120px">
             <span>~</span>
-            <input type="text" readonly name="maxday" id="maxday" style="width:60px">
-            <span>(N박)</span>
+            <input type="date"  name="rMaxdate" id="rMaxdate" style="width:120px">
+            <span id="totalDay"></span>
             <br>
             <span>숙박인원</span>
             <input type="text" name="num" id="num"><span>명</span>
@@ -73,6 +73,14 @@
     </div>
 </body>
 <script>
+	function calcTotalDate(){
+		let startArray = $("#rMindate").val().split("-");
+		let endArray = $("#rMaxdate").val().split("-");
+		let startDate = new Date(startArray[0],Number(startArray[1])-1,startArray[2]);
+		let endDate = new Date(endArray[0],Number(endArray[1])-1,endArray[2]);
+		let betweenDate = (endDate.getTime()-startDate.getTime())/1000/60/60/24;
+		$("#totalDay").html("<br>("+betweenDate+" 박)");
+	}
 	function roomTypeInit(){
 		let txt = '';
 		$("#roomtype").html('');
@@ -84,12 +92,19 @@
 		},'json');
 	}
 	function reservListInit(){
-		//get으로 예약가능한 객실 받아오기
-		$("#reservlist option").each(function(){
-			$(this).remove();
-		})
-		txt ="<option>한라산</option><option>백두산</option><option>관악산</option><option>남산</option>";
-		$("#reservlist").append(txt);
+		let txt = '';
+		$("#reservlist").text('');
+		$.get("http://localhost:8080/reservations",{
+			startDate:$("#mindate").val(),
+			endDate: $("#maxdate").val(),
+			roomType: $("#roomType option:selected").val()
+		},function(result){
+			for(let room in result){
+				txt += "<option value="+result[room].roomcode+">"+result[room].name+","+result[room].type+","+result[room].howmany+","+result[room].howmuch+"</option>";
+			}
+			$("#reservlist").append(txt);
+			
+		},'json');
 	}
 	function reservedListInit(){
 		//get으로 예약된 객실 받아오기
@@ -97,8 +112,8 @@
 	function clearReservation(){
 		$("#reservlist option:selected").prop("selected",false);
 		$("#rName").val("");
-		$("#minday").val("");
-		$("#maxday").val("");
+		$("#mindate").val("");
+		$("#maxdate").val("");
 		$("#num").val("");
 		$("#perPrice").val("");
 		$("#total").val("");
@@ -149,12 +164,14 @@
 	
 	$("#reservlist").change(function(){
 		let selected = $("#reservlist option:selected");
-		$("#rName").val(selected.val()); 
+		$("#rName").val(selected.val());
+		calcTotalDate();
 	});
 	
 	$("#reservedlist").change(function(){
 		let selected = $("#reservedlist option:selected");
 		$("#rName").val(selected.val());
+		calcTotalDate();
 	});
 
 </script>

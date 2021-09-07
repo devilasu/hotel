@@ -1,17 +1,17 @@
 package com.human.vo;
 
 public class LoginInfo {
-	private String uid;
+	private String id;
 	private String password;
 	@Override
 	public String toString() {
-		return "LoginInfo [uid=" + uid + ", password=" + password + "]";
+		return "LoginInfo [id=" + id + ", password=" + password + "]";
 	}
-	public String getUid() {
-		return uid;
+	public String getId() {
+		return id;
 	}
-	public void setUid(String uid) {
-		this.uid = uid;
+	public void setId(String id) {
+		this.id = id;
 	}
 	public String getPassword() {
 		return password;

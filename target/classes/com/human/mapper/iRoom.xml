@@ -8,7 +8,8 @@
 		where room.type = roomtype.typecode
 		order by room.roomcode
 	</select>
-	<select id="searchRoom" resultType="com.human.vo.Roominfo" parameterType = "Integer">
+	
+	<select id="getRoom" resultType="com.human.vo.Roominfo" parameterType = "Integer">
 		select * from room where roomcode=#{roomcode}
 	</select>
 	<update id="updateRoom" parameterType = "com.human.vo.Roominfo">
@@ -27,10 +28,10 @@
 	</insert>
 	
 	<insert id="joinMember" parameterType="com.human.vo.MemberInfo">
-		insert into member(name, uid, password) values(#{name}, #{uid}, #{password})
+		insert into member(name, id, password) values(#{name}, #{id}, #{password})
 	</insert>
 	
-	<select id="getMember" parameterType="com.human.vo.MemberInfo" resultType="com.human.vo.MemberInfo">
-		select name, uid from member where id=#{uid} and password = #{password} 
+	<select id="getMember" parameterType="com.human.vo.LoginInfo" resultType="com.human.vo.MemberInfo">
+		select name, id from member where id=#{id} and password = #{password} 
 	</select>
 </mapper>

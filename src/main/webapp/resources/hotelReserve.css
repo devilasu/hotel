@@ -9,7 +9,7 @@
     font-size: 25px;
 }
 
-.divLeft, .divMiddle, .divRight{
+.divLeft{
     display: inline-block;
     box-sizing: border-box;
     vertical-align: top;
@@ -20,7 +20,25 @@
     margin: 10px 10px;
 }
 .divMiddle{
-    line-height: 220%;
+    display: inline-block;
+    box-sizing: border-box;
+    vertical-align: top;
+    width:31%;
+    height:400px;
+    padding: 15px;
+    overflow-y: hidden;
+    margin: 10px 10px;
+     line-height: 220%;
+}
+.divRight{
+    display: inline-block;
+    box-sizing: border-box;
+    vertical-align: top;
+    width:31%;
+    height:400px;
+    padding: 15px;
+    overflow-y: hidden;
+    margin: 10px 10px;
 }
 
 .search{

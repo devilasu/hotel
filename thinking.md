@@ -1,4 +1,3 @@
-reservation Å×ÀÌºí »ı¼ºÇÊ¿ä.
 
 table roomtype(
 	typecode
@@ -22,13 +21,8 @@ create table reservation(
 
 create table member(
 	name
-	uid	pk
+	id	pk
 	password
 );
 
-±â°£ °ü¸®¿¡ ´ëÇÏ¿©
-
-½ÃÀÛ½Ã°£°ú ³¡ ½Ã°£À» ÀúÀåÇÑ´Ù°í ÇÒ¶§,
-»õ·Î¿î µî·Ï ½Ã, ±×°ÍÀÌ °ãÄ¡´ÂÁö ¾È°ãÄ¡´ÂÁö È®ÀÎÇÏ´Â ¹æ¹ı.
-¿À¶óÅ¬ »ç¿ë Äõ¸®: connect by, to_date, trunc
-ÀÇ¹®Á¡: add_months?
+ë‚ ì§œ ê³„ì‚°.
