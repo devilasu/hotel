@@ -24,6 +24,7 @@ import com.human.vo.MemberInfo;
 import com.human.vo.Roominfo;
 import com.human.vo.Roomtype;
 import com.human.vo.ReservTypeInfo;
+import com.human.vo.ReservedInfo;
 
 /**
  * Handles requests for the application home page.
@@ -43,7 +44,7 @@ public class HomeController {
 	
 	@RequestMapping(value="/rooms",method = RequestMethod.GET)
 	@ResponseBody
-	public List<Roominfo> getRooms(@RequestParam("startDate")String startDate, @RequestParam("endDate")String endDate, @RequestParam("roomcode") Integer roomcode) {
+	public List<Roominfo> getRooms() {
 		iRoom room = sqlSession.getMapper(iRoom.class);
 		List<Roominfo> roomList = room.getRoomList();
 		return roomList;
@@ -61,12 +62,11 @@ public class HomeController {
 	@ResponseBody
 	public HttpStatus insertupdateRoom(@RequestBody Roominfo roominfo) {
 		iRoom room = sqlSession.getMapper(iRoom.class);
-		if(room.getRoom(roominfo.getRoomcode()).equals(null)) {
+		if(roominfo.getRoomcode()==0) {
 			room.insertRoom(roominfo);
 		}else {
 			room.updateRoom(roominfo);
 		}
-		
 		return HttpStatus.OK;
 	}
 	
@@ -97,7 +97,7 @@ public class HomeController {
 		return "redirect:/loginForm";
 	}
 	
-	@RequestMapping(value="/reservations", method = RequestMethod.GET)
+	@RequestMapping(value="/reservrooms", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Roominfo> getReservation(Model model, ReservTypeInfo reservTypeInfo) {
 		iBook book = sqlSession.getMapper(iBook.class);
@@ -105,11 +105,28 @@ public class HomeController {
 		return reservationList;
 	}
 	
-	@RequestMapping(value="/reservatedrooms", method = RequestMethod.GET)
+	@RequestMapping(value="/reservrooms", method = RequestMethod.POST)
 	@ResponseBody
-	public List<Roominfo> getReservated(Model model, ReservTypeInfo reservTypeInfo) {
+	public Integer insertUpdateResrvation(ReservedInfo reservedInfo) {
 		iBook book = sqlSession.getMapper(iBook.class);
-		List<Roominfo> reservatedList = book.getReservated(reservTypeInfo);
+		book.insertReservation(reservedInfo);
+		int result = reservedInfo.getBookcode();
+		return result;
+	}
+	
+	@RequestMapping(value="/reservrooms", method = RequestMethod.DELETE)
+	@ResponseBody
+	public String deleteReservation(@RequestParam("bookcode")Integer bookcode) {
+		iBook book = sqlSession.getMapper(iBook.class);
+		book.deleteReservation(bookcode);
+		return "ok";
+	}
+	
+	@RequestMapping(value="/reservedrooms", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ReservedInfo> getReservated(Model model, ReservTypeInfo reservTypeInfo) {
+		iBook book = sqlSession.getMapper(iBook.class);
+		List<ReservedInfo> reservatedList = book.getReserved(reservTypeInfo);
 		return reservatedList;
 	}
 	

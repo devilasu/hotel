@@ -3,6 +3,9 @@
 
 <mapper namespace="com.human.mapper.iBook">
 	<insert id="insertReservation">
+	<selectKey keyProperty="bookcode" resultType="int" order="AFTER">
+		SELECT seq_bookcode.CURRVAL AS bookcode FROM DUAL
+	</selectKey>
 		insert into reservation(
 			bookcode,
 			startdate,
@@ -11,40 +14,43 @@
 			mobile,
 			roomcode
 		) values(
-		#{bookcode},
-		#{startdate},
-		#{enddate},
+		seq_bookcode.nextval,
+		#{startDate},
+		#{endDate},
 		#{howmany},
 		#{mobile},
 		#{roomcode}
 		)
 	</insert>
 	
+	<delete id="deleteReservation">
+		delete from reservation
+		where bookcode=#{bookcode}
+	</delete>
+	
 	<select id="getReservation" parameterType="com.human.vo.ReservTypeInfo" resultType="com.human.vo.Roominfo">
 	<![CDATA[
 	
-		select *
+		select distinct *
 		from room
-		where 
-			type = #{roomType}
-			and (select A.roomcode 
-   			from room A, reservation B
-   			where A.roomcode=B.roomcode 
-   			and (startdate <= #{endDate} and enddate >= #{startDate})) != room.roomcode
+		where type=#{roomType}
+			and roomcode not in(
+		    select A.roomcode
+		    from room A, reservation B 
+		    where A.type = #{roomType}
+		    and A.roomcode = B.roomcode
+		    and (B.startdate <= #{endDate} and B.enddate >= #{startDate}))
 	]]>
 	</select>
 	
-	<select id="getReservated" parameterType="com.human.vo.ReservTypeInfo" resultType="com.human.vo.Roominfo">
+	<select id="getReserved" parameterType="com.human.vo.ReservTypeInfo" resultType="com.human.vo.ReservedInfo">
 	<![CDATA[
 	
-		select *
-		from room
-		where 
-			type = #{roomType}
-			and (select A.roomcode 
-   			from room A, reservation B
-   			where A.roomcode=B.roomcode
-   			and (startdate <= #{endDate} and enddate >= #{startDate})) == room.roomcode
+		select B.bookcode, A.*, B.startdate, B.enddate,B.mobile
+		from room A, reservation B
+		where A.roomcode = B.roomcode
+		and A.type=#{roomType}
+		and	(B.startdate <= #{endDate} and B.enddate >= #{startDate})
 	]]>
 	</select>
 </mapper>

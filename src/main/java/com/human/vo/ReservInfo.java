@@ -6,6 +6,7 @@ public class ReservInfo {
 	private String endDate;
 	private int howmany;
 	private int roomcode;
+	
 	@Override
 	public String toString() {
 		return "ReservInfo [startDate=" + startDate + ", endDate=" + endDate + ", howmany=" + howmany + ", roomcode="
@@ -35,7 +36,5 @@ public class ReservInfo {
 	public void setRoomcode(int roomcode) {
 		this.roomcode = roomcode;
 	}
-	
-	
 	
 }
