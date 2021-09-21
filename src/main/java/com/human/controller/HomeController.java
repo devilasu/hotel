@@ -109,9 +109,15 @@ public class HomeController {
 	@ResponseBody
 	public Integer insertUpdateResrvation(ReservedInfo reservedInfo) {
 		iBook book = sqlSession.getMapper(iBook.class);
-		book.insertReservation(reservedInfo);
-		int result = reservedInfo.getBookcode();
-		return result;
+			if(reservedInfo.getBookcode()==0) {
+			book.insertReservation(reservedInfo);
+			int result = reservedInfo.getBookcode();
+			return result;
+		}else {
+			book.updateReservation(reservedInfo);
+			int result = reservedInfo.getBookcode();
+			return result;
+		}
 	}
 	
 	@RequestMapping(value="/reservrooms", method = RequestMethod.DELETE)

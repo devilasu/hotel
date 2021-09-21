@@ -10,18 +10,29 @@
 			bookcode,
 			startdate,
 			enddate,
-			howmany,
+			howmanyNum,
 			mobile,
 			roomcode
 		) values(
 		seq_bookcode.nextval,
 		#{startDate},
 		#{endDate},
-		#{howmany},
+		#{howmanyNum},
 		#{mobile},
 		#{roomcode}
 		)
 	</insert>
+	
+	<update id="updateReservation">
+	<selectKey keyProperty="bookcode" resultType="int" order="AFTER">
+		select #{bookcode} from dual
+	</selectKey>
+		update reservation
+		set
+			howmanyNum=#{howmanyNum}
+			, mobile=#{mobile}
+		where bookcode=#{bookcode}
+	</update>
 	
 	<delete id="deleteReservation">
 		delete from reservation
@@ -31,26 +42,25 @@
 	<select id="getReservation" parameterType="com.human.vo.ReservTypeInfo" resultType="com.human.vo.Roominfo">
 	<![CDATA[
 	
-		select distinct *
+		select *
 		from room
 		where type=#{roomType}
 			and roomcode not in(
 		    select A.roomcode
 		    from room A, reservation B 
-		    where A.type = #{roomType}
-		    and A.roomcode = B.roomcode
-		    and (B.startdate <= #{endDate} and B.enddate >= #{startDate}))
+		    where A.roomcode = B.roomcode
+		    and (B.startdate < #{endDate} and B.enddate > #{startDate}))
 	]]>
 	</select>
 	
 	<select id="getReserved" parameterType="com.human.vo.ReservTypeInfo" resultType="com.human.vo.ReservedInfo">
 	<![CDATA[
 	
-		select B.bookcode, A.*, B.startdate, B.enddate,B.mobile
+		select B.bookcode, A.*, B.startdate, B.enddate,B.mobile,B.howmanynum
 		from room A, reservation B
-		where A.roomcode = B.roomcode
-		and A.type=#{roomType}
-		and	(B.startdate <= #{endDate} and B.enddate >= #{startDate})
+		where A.type=#{roomType}
+		and A.roomcode = B.roomcode
+		and	(B.startdate < #{endDate} and B.enddate > #{startDate})
 	]]>
 	</select>
 </mapper>

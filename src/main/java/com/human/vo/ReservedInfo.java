@@ -4,17 +4,18 @@ public class ReservedInfo {
 	private int bookcode;
 	private String startDate;
 	private String endDate;
-	private int howmany;
+	private int howmanyNum;
 	private int roomcode;
 	private String name;
 	private int type;
+	private int howmany;
 	private int howmuch;
 	private String mobile;
 	@Override
 	public String toString() {
 		return "ReservedInfo [bookcode=" + bookcode + ", startDate=" + startDate + ", endDate=" + endDate
-				+ ", howmany=" + howmany + ", roomcode=" + roomcode + ", name=" + name + ", type=" + type + ", howmuch="
-				+ howmuch + ", mobile=" + mobile + "]";
+				+ ", howmanyNum=" + howmanyNum + ", roomcode=" + roomcode + ", name=" + name + ", type=" + type
+				+ ", howmany=" + howmany + ", howmuch=" + howmuch + ", mobile=" + mobile + "]";
 	}
 	public int getBookcode() {
 		return bookcode;
@@ -34,11 +35,11 @@ public class ReservedInfo {
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
-	public int getHowmany() {
-		return howmany;
+	public int getHowmanyNum() {
+		return howmanyNum;
 	}
-	public void setHowmany(int howmany) {
-		this.howmany = howmany;
+	public void setHowmanyNum(int howmanyNum) {
+		this.howmanyNum = howmanyNum;
 	}
 	public int getRoomcode() {
 		return roomcode;
@@ -58,6 +59,12 @@ public class ReservedInfo {
 	public void setType(int type) {
 		this.type = type;
 	}
+	public int getHowmany() {
+		return howmany;
+	}
+	public void setHowmany(int howmany) {
+		this.howmany = howmany;
+	}
 	public int getHowmuch() {
 		return howmuch;
 	}
@@ -71,5 +78,4 @@ public class ReservedInfo {
 		this.mobile = mobile;
 	}
 	
-
 }

@@ -41,13 +41,13 @@
             <input type="text" readonly name="rName" id="rName">
             <br>
             숙박기간
-            <input type="date"  name="rMindate" id="rMindate" style="width:120px">
+            <input type="text" readonly name="rMindate" id="rMindate" style="width:120px">
             <span>~</span>
-            <input type="date"  name="rMaxdate" id="rMaxdate" style="width:120px">
+            <input type="text" readonly  name="rMaxdate" id="rMaxdate" style="width:120px">
             <span id="totalDay"></span>
             <br>
             <span>숙박인원</span>
-            <input type="text" name="num" id="num"><span>명</span>
+            <input type="number" name="num" id="num"><span>명</span>
             <br>
             <span>1박비용</span>
             <input type="text" readonly name="perPrice" id="perPrice"><span>원</span>
@@ -112,7 +112,7 @@
 			roomType: $("#roomType option:selected").val()
 		},function(result){
 			for(let room in result){
-				txt += "<option value="+result[room].bookcode+">"+result[room].name+","+result[room].startDate.split(' ')[0]+","+result[room].endDate.split(' ')[0]+","+result[room].howmany+","+result[room].howmuch+","+result[room].mobile+"</option>";
+				txt += "<option value="+result[room].bookcode+">"+result[room].name+","+result[room].startDate.split(' ')[0]+","+result[room].endDate.split(' ')[0]+","+result[room].howmanyNum+","+result[room].howmany+","+result[room].howmuch+","+result[room].mobile+"</option>";
 			}
 			$("#reservedlist").append(txt);
 			
@@ -130,21 +130,30 @@
 	}
 	
 	function addReservation(){
-		let selected = $("#reservlist option:selected")
-		if(typeof selected.val() =="undefined" || selected == null || selected ==""){
+		let selected = $("#reservlist option:selected");
+		let selected2 = $("#reservedlist option:selected");
+		if((typeof selected.val() =="undefined" || selected == null || selected =="") && (typeof selected2.val() =="undefined" || selected2 == null || selected2 =="") ){
 			alert("예약가능한 객실을 선택하지 않으셨습니다.");
 			return false;
 		}else{
 			$.post( "http://localhost:8080/reservrooms",{
+				bookcode:$("#reservedlist option:selected").val(),
 				roomcode:$("#reservlist option:selected").val(),
 				startDate:$("#rMindate").val(),
 				endDate:$("#rMaxdate").val(),
-				howmany:$("#num").val(),
+				howmanyNum:$("#num").val(),
 				mobile:$("#mobile").val()
 			},function(result){
-				let txt = "<option value="+result+">"+$("#rName").val()+","+$("#rMindate").val()+","+$("#rMaxdate").val()+","+$("#num").val()+","+$("#perPrice").val()+","+$("#mobile").val()+"</option>";
-				$("#reservedlist").append(txt);
-				selected.remove();
+				if(typeof selected2.val() != "undefined"){
+					selected2.remove();
+					let txt = "<option value="+result+">"+$("#rName").val()+","+$("#rMindate").val()+","+$("#rMaxdate").val()+","+$("#num").val()+","+$("#num").prop("max")+","+$("#perPrice").val()+","+$("#mobile").val()+"</option>";
+					$("#reservedlist").append(txt);
+					
+				}else{
+					let txt = "<option value="+result+">"+$("#rName").val()+","+$("#rMindate").val()+","+$("#rMaxdate").val()+","+$("#num").val()+","+$("#num").prop("max")+","+$("#perPrice").val()+","+$("#mobile").val()+"</option>";
+					$("#reservedlist").append(txt);
+					selected.remove();
+				}
 			},'json'
 			);
 		}
@@ -208,9 +217,11 @@
 		let betweenday = calcTotalDate($("#rMindate").val(),$("#rMaxdate").val());
 		$("#totalDay").html("<br>("+betweenday+" 박)");
 		$("#num").val("");
+		$("#num").attr('max',txtArray[2]);
 		$("#perPrice").val(txtArray[3]);
 		$("#total").val(txtArray[3]*betweenday);
 		$("#mobile").val("");
+		$("#reservedlist option:selected").prop("selected",false);
 		return false;
 	});
 	
@@ -221,11 +232,12 @@
 		$("#rMindate").val(selectedArray[1]);
 		$("#rMaxdate").val(selectedArray[2]);
 		$("#num").val(selectedArray[3]);
-		$("#perPrice").val(selectedArray[4]);
+		$("#num").attr('max',selectedArray[4]);
+		$("#perPrice").val(selectedArray[5]);
 		$("#total").val($("#perPrice").val()*calcTotalDate($("#rMindate").val(),$("#rMaxdate").val()));
-		$("#mobile").val(selectedArray[5]);
+		$("#mobile").val(selectedArray[6]);
 		$("#totalDay").html("<br>("+calcTotalDate($("#rMindate").val(),$("#rMaxdate").val())+" 박)");
-		
+		$("#reservlist option:selected").prop("selected",false);
 		return false;
 	});
 
