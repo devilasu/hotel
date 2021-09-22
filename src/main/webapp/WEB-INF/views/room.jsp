@@ -11,12 +11,25 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
     <link rel="stylesheet" href="/resources/hotelRoom.css">
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+	<!-- 부가적인 테마 -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+	<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <title>객실관리</title>
 </head>
 <body>
-    <div class="wrap">
-        <div class="nav">
-            <h1><a href="room"><font color="skyblue">객실관리</font></a> <a href="/booking">예약관리</a> <a href="/logout">로그아웃</a></h1>
+    <div class="container">
+        <div class="text-right">
+    		${name}님 어서오세요
+    		<br>
+    		<span class="col-md-11"></span>
+    		<a class="btn btn-default col-md-1" href="/logout">로그아웃</a>
+    	</div>
+        <div class="nav nav-tabs">
+            <li class="active" role="presentation"><a href="/room">객실관리</a></li>
+            <li role="presentation"><a href="/booking">예약관리</a></li>
         </div>
         <br>
         <div class="divLeft">
@@ -61,9 +74,9 @@
             <br>
             <br>
             <br>
-            <input type="button" class="btn" id="btnAdd" value="등록">
-            <input type="button" class="btn" id="btnDelete" value="삭제">
-            <input type="button" class="btn" id="btnClear" value="Clear">
+            <input type="button" class="btn btn-primary col-md-2" id="btnAdd" value="등록">
+            <input type="button" class="btn btn-danger col-md-2" id="btnDelete" value="삭제">
+            <input type="button" class="btn btn-default col-md-2" id="btnClear" value="Clear">
         </div>
     </div>  
 </body>

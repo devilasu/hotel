@@ -94,7 +94,7 @@ public class HomeController {
 		if(uid != null && uid != "") {
 			return "booking";
 		}
-		return "redirect:/loginForm";
+		return "redirect:/";
 	}
 	
 	@RequestMapping(value="/reservrooms", method = RequestMethod.GET)
@@ -136,13 +136,6 @@ public class HomeController {
 		return reservatedList;
 	}
 	
-
-	@RequestMapping(value = "/loginForm", method = RequestMethod.GET)
-	public String loginForm() {
-		
-		return "loginForm";
-	}
-	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(HttpServletRequest request,LoginInfo loginInfo, Model model) {
 		HttpSession session = request.getSession();
@@ -166,7 +159,7 @@ public class HomeController {
 	public String join(MemberInfo memberInfo) {
 		iRoom room = sqlSession.getMapper(iRoom.class);
 		room.joinMember(memberInfo);
-		return "redirect:/loginForm";
+		return "redirect:/";
 	}
 	
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
