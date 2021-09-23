@@ -27,10 +27,10 @@
     		<span class="col-md-11"></span>
     		<a class="btn btn-default col-md-1" href="/logout">로그아웃</a>
     	</div>
-        <div class="nav nav-tabs">
+        <ul class="nav nav-tabs">
             <li class="active" role="presentation"><a href="/room">객실관리</a></li>
             <li role="presentation"><a href="/booking">예약관리</a></li>
-        </div>
+        </ul>
         <br>
         <div class="divLeft">
             <div class="roomList">
