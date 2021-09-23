@@ -85,7 +85,7 @@
 		            <input type="button" class="btn btn-default col-md-2" id="btnClear" value="Clear">
 		        </div>
 	        </div>
-	        <div class="divRight col-md-4">
+	        <div class="divRight col-md-3">
 	            <span>예약된 객실</span>
 	            <select name="reservedlist" id="reservedlist" size=10 style="width:100%;">
 	            </select>
